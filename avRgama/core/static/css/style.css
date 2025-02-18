@@ -1,0 +1,83 @@
+*{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h2{
+    text-transform: capitalize;
+    margin-top: 5px;
+    font-size: 1.2em;
+}
+h3{
+    font-size: 1.1em;
+    color: red;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+h4{
+    font-size: 0.8em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.navmenu{
+    color: #ffffff;
+}
+
+.c1{
+    background-color: #ff6600;
+}
+.c2{
+    background-color: #8FDB78;
+}
+.c3{
+    background-color: #ffffff;
+}
+
+.conteudo{
+    width: 101%;
+}
+
+.lateral{
+    /* background-image: url(../imagens/rgama\ -\ Copia.jpg); */
+    background-attachment: fixed;
+    background-size: 27.4% 100%;
+}
+
+.produto{
+    width: 150px;
+    padding: 5px 10px;
+    margin: auto;
+    margin-bottom: 20px;
+    border-bottom: 1px solid black;
+    box-shadow: 1px 1px 7px black;
+    border-radius: 5px;
+}
+
+.tituloprod{
+    color: #000000;
+    text-decoration: none;
+}
+
+.prodfoco{
+    height: 400px;
+}
+
+.imgprodfoco{
+    align-items: center;
+}
+
+.prodfoco h2{
+    font-size: 2em;
+}
+.prodfoco h3{
+    font-size: 1.6em;
+    font-weight: bolder;
+}
+
+.mudarqtd{
+    width: 20px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
