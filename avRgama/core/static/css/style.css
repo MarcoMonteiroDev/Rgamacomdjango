@@ -48,12 +48,16 @@ div > h4{
 div.produto{
     height: 300px;
     width: 150px;
-    padding: 5px 10px;
+    padding: 10px 10px;
     margin: auto;
     margin-bottom: 20px;
     border-bottom: 1px solid black;
     box-shadow: 1px 1px 7px black;
     border-radius: 5px;
+}
+
+.produto > a > div > h2 {
+    height: 70px;
 }
 
 .tituloprod{
