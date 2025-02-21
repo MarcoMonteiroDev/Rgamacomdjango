@@ -45,7 +45,8 @@ div > h4{
     background-size: 27.4% 100%;
 }
 
-div > .produto{
+div.produto{
+    height: 300px;
     width: 150px;
     padding: 5px 10px;
     margin: auto;
