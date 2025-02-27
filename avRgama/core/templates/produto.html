@@ -20,7 +20,7 @@
       <div class="container">
 
         <a href="index.html" class="navbar-brand">
-          <img src="{% static 'images/promo.png' %}" alt="" width="200">
+          <img src="{% static 'images/logorgma.jpg' %}" alt="" width="200">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menus" aria>
@@ -63,7 +63,6 @@
 
   <div class="row mt-2 conteudo"> <!-- conteudo -->
 
-    <img src="{% static 'images/promo.png' %}" alt="">
 
     <div class="col-md lateral">
     </div>
@@ -73,12 +72,12 @@
       <div class="prodfoco row">
         
         <div class="col-6 row m-2">
-            <img src="imagens/cimento.jpg" alt="">
+            <img src="{{ produto.imagem.url }}" alt="">
         </div>
 
         <div class="col mt-5">
-            <h2>Cimento tocantins</h2>
-            <h3>R$ 50,00 </h3>
+            <h2>{{ produto.nome }}</h2>
+            <h3>R${{ produto.preco }}</h3>
             <h4>ou 2x 10,99 no cartao</h4>
             
             <label for="qtd">Quantidade</label>

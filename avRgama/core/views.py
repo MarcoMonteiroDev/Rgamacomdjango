@@ -9,3 +9,13 @@ def index(request):
     }
 
     return render(request, "index.html", context)
+
+def produto(request,pk):
+
+    prod = Produto.objects.get(id=pk)
+
+    context = {
+        "produto": prod ,
+    }
+
+    return render(request, "produto.html", context)
