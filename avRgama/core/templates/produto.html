@@ -12,14 +12,14 @@
   <link rel="stylesheet" href="{% static 'css/mobile.css' %}" media="screen and (max-width: 768px)">
 </head>
 
-<body>
+<body id="produto">
 
   <header class="c1 p-5"> <!-- topo -->
     <nav class="navbar navbar-expand-lg  ">
 
       <div class="container">
 
-        <a href="index.html" class="navbar-brand">
+        <a href="{% url 'index' %}" class="navbar-brand">
           <img src="{% static 'images/logorgma.jpg' %}" alt="" width="200">
         </a>
 

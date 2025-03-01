@@ -36,7 +36,7 @@ div > h4{
 }
 
 .conteudo{
-    width: 101%;
+    width: 100%;
 }
 
 .lateral{
@@ -85,4 +85,12 @@ div.produto{
     width: 20px;
     border: 1px solid black;
     margin-bottom: 10px;
+}
+
+#produto > div {
+    height: 60vh;
+}
+
+#produto > header {
+    height: 37.5vh;
 }
