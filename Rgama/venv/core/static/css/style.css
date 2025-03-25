@@ -94,3 +94,9 @@ div.produto{
 #produto > header {
     height: 37.5vh;
 }
+
+.lista{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
+    border: 1px solid red;
+}
