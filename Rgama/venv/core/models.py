@@ -29,7 +29,7 @@ class Produto(Base):
 
     nome = models.CharField("Nome", max_length=40)
     preco = models.DecimalField("Preço",max_digits=8, decimal_places=2)
-    descricao = models.CharField("Descrição", max_length=150)
+    descricao = models.TextField("Descrição", max_length=150)
     estoque = models.DecimalField("Estoque", max_digits=8, decimal_places=2)
     categoria = models.CharField("Categoria", max_length=40, choices=CAT_CHOICES, default= "materiais de construcao")
     imagem = StdImageField("Imagem", upload_to='produtos', variations={"thumb": (224,224)})

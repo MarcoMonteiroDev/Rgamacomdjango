@@ -22,7 +22,7 @@ div > h4{
 }
 
 .navmenu{
-    color: #fff !important;
+    color: #fff ;
 }
 
 .c1{
@@ -47,7 +47,7 @@ div > h4{
 
 div.produto{
     height: 300px;
-    width: 150px;
+    width: 170px;
     padding: 10px 10px;
     margin: auto;
     margin-bottom: 20px;
@@ -58,6 +58,7 @@ div.produto{
 
 .produto > a > div > h2 {
     height: 70px;
+    align-content: center;
 }
 
 .tituloprod{
@@ -97,6 +98,5 @@ div.produto{
 
 .lista{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px,1fr));
-    border: 1px solid red;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1.3fr));
 }
