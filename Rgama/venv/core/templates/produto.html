@@ -9,19 +9,18 @@
   <div class="row mt-2 conteudo"> <!-- conteudo -->
 
 
-    <div class="col-md lateral">
+    <div class="col-lg lateral">
     </div>
 
-    <div class="col-md-8 row">
+    <div class="col-lg-8 row align-items-center" style="height: 69.2vh;">
 
       <div class="prodfoco row">
-        
         <div class="col-6 row m-2">
-            <img src="{{ produto.imagem.url }}" alt="">
+          <img src="{{ produto.imagem.url }}" alt="">
         </div>
-
-        <div class="col mt-5">
-            <h2>{{ produto.nome }}</h2>
+        
+        <div class="col mt-5" >
+          <h2>{{ produto.nome }}</h2>
             <h3>R${{ produto.preco }}</h3>
             <h4>ou 2x 10,99 no cartao</h4>
             
@@ -34,7 +33,7 @@
             </div>
 
             <div class="total">
-              <label for="total">Total Compra</label>
+              <label for="total">Total</label>
               <button id="total">50,00 R$</button>
             </div>
 
@@ -52,7 +51,7 @@
 
     </div>
 
-    <div class="col-md lateral ">
+    <div class="col-lg lateral ">
     </div>
 
   </div> <!-- fim conteudo -->

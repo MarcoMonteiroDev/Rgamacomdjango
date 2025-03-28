@@ -36,7 +36,7 @@ div > h4{
 }
 
 .conteudo{
-    width: 100%;
+    width: 100.8%;
 }
 
 .lateral{
@@ -76,6 +76,7 @@ div.produto{
 
 .prodfoco h2{
     font-size: 2em;
+    margin-bottom: 10px;
 }
 .prodfoco h3{
     font-size: 1.6em;
@@ -89,11 +90,15 @@ div.produto{
 }
 
 #produto > div {
-    height: 60vh;
+    height: 77.2vh;
 }
 
 #produto > header {
-    height: 37.5vh;
+    height: 22vh;
+}
+
+#produto > header  img {
+    width: 130px;
 }
 
 .lista{
