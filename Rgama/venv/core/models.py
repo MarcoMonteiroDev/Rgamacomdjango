@@ -21,17 +21,26 @@ class Base(models.Model):
 class Produto(Base):
     CAT_CHOICES = (
         ("materiais de construcao", 'Materiais de Construção'),
-        ("tintas e acessorios", 'Tintas E acessorios'),
+        ("tintas e acessorios", 'Tintas e Acessorios'),
         ("pisos e revestimentos", 'Pisos e Revestimentos'),
         ("eletrico e acabamento", 'Eletrico e Acabamento'),
         
     )
 
-    nome = models.CharField("Nome", max_length=40)
+    MEDIDA_CHOICES = (
+        ("metros quadrados", "M\u00b2"),
+        ("metros", "M"),
+        ("milimetros", "MM"),
+        ("centimetros","C"),
+        ("litros","L")
+    )
+
+    nome = models.CharField("Nome", max_length=80)
     preco = models.DecimalField("Preço",max_digits=8, decimal_places=2)
     descricao = models.TextField("Descrição", max_length=150)
     estoque = models.DecimalField("Estoque", max_digits=8, decimal_places=2)
     categoria = models.CharField("Categoria", max_length=40, choices=CAT_CHOICES, default= "materiais de construcao")
+    medida = models.CharField("Medida", max_length=20, choices=MEDIDA_CHOICES, default="metros")
     imagem = StdImageField("Imagem", upload_to='produtos', variations={"thumb": (224,224)})
     slug = models.SlugField("Slug", max_length=100, blank=True, editable=False)
 
@@ -41,6 +50,8 @@ class Produto(Base):
 
     def __str__(self):
         return self.nome
+    
+
     
 def produto_pre_save(signal, instance, sender, **kwargs):
     instance.slug = slugify(instance.nome)
