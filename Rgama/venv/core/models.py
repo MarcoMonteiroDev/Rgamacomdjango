@@ -4,6 +4,8 @@ from django.db.models import signals
 from django.template.defaultfilters import slugify
 import uuid
 
+def produto_pre_save(signal, instance, sender, **kwargs):
+    instance.slug = slugify(instance.nome)
 
 def get_file_path(_instance, filename):
     ext = filename.split("."[-1])
@@ -28,11 +30,11 @@ class Produto(Base):
     )
 
     MEDIDA_CHOICES = (
-        ("metros quadrados", "M\u00b2"),
-        ("metros", "M"),
-        ("milimetros", "MM"),
-        ("centimetros","C"),
-        ("litros","L")
+        ("M\u00b2", "Metro Quadrados"),
+        ("M", "Metros"),
+        ("MM", "Milimetros"),
+        ("CM","Centimetros"),
+        ("L","Litros")
     )
 
     nome = models.CharField("Nome", max_length=80)
@@ -51,9 +53,15 @@ class Produto(Base):
     def __str__(self):
         return self.nome
     
-
+class Promo(Base):
+    nome = models.CharField("Nome",max_length=40)
+    imagem_promo = StdImageField("Promo", upload_to="promocoes", variations={"thumb":(1536,512)})
+    slug = models.SlugField("Slug",max_length=100, blank=True, editable=False)
     
-def produto_pre_save(signal, instance, sender, **kwargs):
-    instance.slug = slugify(instance.nome)
+    def __str__(self):
+        return self.nome
+    
+
 
 signals.pre_save.connect(produto_pre_save, sender=Produto)
+signals.pre_save.connect(produto_pre_save, sender=Promo)

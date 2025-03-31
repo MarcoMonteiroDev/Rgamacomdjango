@@ -21,8 +21,7 @@
         
         <div class="col mt-5" >
           <h2>{{ produto.nome }}</h2>
-            <h3>R${{ produto.preco }}</h3>
-            <h3>R${{ produto.get_medida_display }}</h3>
+            <h3>R${{ produto.preco }} /{{ produto.medida }}</h3>
             <h4>ou 2x 10,99 no cartao</h4>
             
             <label for="qtd">Quantidade</label>
@@ -37,15 +36,6 @@
               <label for="total">Total</label>
               <button id="total">50,00 R$</button>
             </div>
-
-
-            
-            <!-- <form action="">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="busque seu produto">
-                <button type="submit" class="btn btn-dark">Buscar</button>
-              </div>
-            </form> -->
 
         </div>
       </div>
