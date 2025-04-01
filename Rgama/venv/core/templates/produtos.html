@@ -7,7 +7,7 @@
     <div class="col-lg-8 col-sm-12 row m-sm-auto lista">
       
       {% for produto in produtos %}
-      
+      {% if produto.ativo == True %}
       <div class="produto">
         <a href="{% url 'produto' produto.id %}" class="tituloprod">
           <div class="">
@@ -20,7 +20,7 @@
           </div>
         </a>
       </div>
-  
+      {% endif %}
       {% endfor %}
     </div>
   

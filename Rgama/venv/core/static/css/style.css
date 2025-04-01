@@ -90,15 +90,15 @@ div.produto{
 }
 
 #produto > div {
-    height: 77.2vh;
+    height: 76vh;
 }
 
 #produto > header {
-    height: 22vh;
+    height: 24vh;
 }
 
 #produto > header  img {
-    width: 130px;
+    width: 120px;
 }
 
 .lista{
