@@ -1,15 +1,15 @@
 {% load static %}
 <div id="carouselExampleCaptions" class="carousel slide"> 
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      {% for promocao in promocoes %}
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %} active {% endif %}" aria-label="Slide {{ forloop.counter0 }}"></button>
+      {% endfor %}
     </div>
 
     <div class="carousel-inner">
       
       {% for promocao in promocoes %}
-      <div class="carousel-item active">
+      <div class="carousel-item {% if forloop.first %} active {% endif %}">
         <img src="{{ promocao.imagem_promo.url }}" class="d-block w-100 img-fluid" alt="...">
       </div>
       {% endfor %}
