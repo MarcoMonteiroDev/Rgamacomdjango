@@ -7,20 +7,20 @@
     <div class="col-lg-8 col-sm-12 row m-sm-auto lista">
       
       {% for produto in produtos %}
-      {% if produto.ativo == True %}
-      <div class="produto">
-        <a href="{% url 'produto' produto.id %}" class="tituloprod">
-          <div class="">
-            <img src="{{ produto.imagem.url }}" alt="" width="100%">
-            <h2>{{ produto.nome }}</h2>
+        {% if produto.ativo == True %}
+          <div class="produto">
+            <a href="{% url 'produto' produto.id %}" class="tituloprod">
+              <div class="">
+                <img src="{{ produto.imagem.url }}" alt="" width="100%">
+                <h2>{{ produto.nome }}</h2>
+              </div>
+              <div>
+                <h3>{{ produto.preco }} R$</h3>
+                <h4>ou 2x R$ 25,60 no cartao</h4>
+              </div>
+            </a>
           </div>
-          <div>
-            <h3>{{ produto.preco }} R$</h3>
-            <h4>ou 2x R$ 25,60 no cartao</h4>
-          </div>
-        </a>
-      </div>
-      {% endif %}
+        {% endif %}
       {% endfor %}
     </div>
   
