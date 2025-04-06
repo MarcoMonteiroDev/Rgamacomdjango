@@ -45,16 +45,21 @@
     
         <div class="container">
     
-          <form action="{% url 'index' %}" method="get">
+          <form action="{% url 'index' %}" method="get" class="position-relative">
             <div class="input-group">                 <!-- abaixo serve para para manter o text depois do submit -->
-              <input type="text" name="busca" value="{{ request.GET.busca }}" class="form-control" placeholder="busque seu produto">
-              <!-- abaixo serve para se o usuario ja filtrol por categoria essa informação e mantida na busca -->
+              <input type="text" name="busca" value="{{ request.GET.busca }}" class="form-control" placeholder="busque seu produto" autocomplete="off">
+              <!-- abaixo serve para se o usuario ja filtrou por categoria essa informação e mantida na busca -->
               {% if categoria_selecionada %}
               <input type="hidden" name="categoria" value="{{ categoria_selecionada }}">
               {% endif%}
 
+              <ul id="sugestoes" class="list-group position-absolute w-100 z-3 shadow" style="top: 100%; left: 0;"></ul>
+
               <button type="submit" class="btn btn-dark">Buscar</button>
             </div>
+                                                                                            <!-- esse top 100% que faz com que a lista seja criado logo a baixo da barra -->
+            <ul id="sugestoes" class="list-group position-absolute w-100 z-3 shadow" style="top: 100%; left: 0;"></ul>
+            
           </form>
 
         </div>
@@ -66,6 +71,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+  <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </body>
 
 </html>

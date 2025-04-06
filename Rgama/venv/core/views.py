@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.views.generic.detail import DetailView
+from django.views import View
 from .models import Produto,Promo
+from django.http import JsonResponse
 # Create your views here.
 
 class IndexView(ListView):
@@ -27,7 +29,7 @@ class IndexView(ListView):
         context["produtos"] = self.object_list #traz a lista do query set
         context["promocoes"] = Promo.objects.all()
         context["categorias"] = Produto.CAT_CHOICES #para trazer as categorias para serem usadas no laço de repetição
-        context["categoria_selecionada"] = self.request.GET.get("categoria","") #para usar no if para deixar a cat selecionada preta retorna o valor associado a categoria categoria=valor se nao houver retorna vazio
+        context["categoria_selecionada"] = self.request.GET.get("categoria","") #para usar no if para deixar a cat selecionada preta / retorna o valor associado a categoria categoria=valor se nao houver retorna vazio
         
         return context
 
@@ -40,3 +42,20 @@ class ProdutoView(DetailView):
         context = super(ProdutoView,self).get_context_data(**kwargs)
         context["categorias"] = Produto.CAT_CHOICES #para trazer as categorias para serem usadas no laço de repetição
         return context
+
+class Busca_Produtos(View):
+
+    def get(self, request):
+        termo = request.GET.get("bd","")#bd busca dinamica
+        produtos = Produto.objects.filter(nome__icontains = termo)[:5]
+
+        data = []
+        for p in produtos:
+            data.append({
+                "id":p.id,
+                "nome":p.nome,
+                "preco":p.preco,
+                "imagem":p.imagem.url
+            })
+
+        return JsonResponse({"resultados": data})
