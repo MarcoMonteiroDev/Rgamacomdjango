@@ -32,13 +32,12 @@
                 {% for value, label in categorias %}
 
                 <li class="nav-item border-white">
-                  <a href="{% url 'index' %}?categoria={{value}}" class="nav-link border-end navmenu {% if categoria_selecionada == value %} active {% endif %}">{{ label }}</a>
-                </li>
+                  <a href="{% url 'index' %}?categoria={{value}}" class="nav-link {% if not forloop.last %} border-end {% endif %} navmenu {% if categoria_selecionada == value %} active {% endif %}">{{ label }}</a>
+                </li>                       <!-- apartir do ? inicia os parametros do querry string se for passar mais um parametro separa com &--> 
 
                 {% endfor%}
               </ul>
             </div>
-    
     
           </div>
     
@@ -46,13 +45,18 @@
     
         <div class="container">
     
-          <form action="">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="busque seu produto">
+          <form action="{% url 'index' %}" method="get">
+            <div class="input-group">                 <!-- abaixo serve para para manter o text depois do submit -->
+              <input type="text" name="busca" value="{{ request.GET.busca }}" class="form-control" placeholder="busque seu produto">
+              <!-- abaixo serve para se o usuario ja filtrol por categoria essa informação e mantida na busca -->
+              {% if categoria_selecionada %}
+              <input type="hidden" name="categoria" value="{{ categoria_selecionada }}">
+              {% endif%}
+
               <button type="submit" class="btn btn-dark">Buscar</button>
             </div>
           </form>
-    
+
         </div>
     
       </header> <!-- fim topo -->
