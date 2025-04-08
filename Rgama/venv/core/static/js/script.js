@@ -16,12 +16,13 @@ fetch(`/buscar/?bd=${encodeURIComponent(query)}`)
 
     if (data.resultados.length === 0) {
         sugestoes.innerHTML = '<li class="list-group-item">Nenhum resultado</li>';
-    } else {
+    } else {/* aqui se usa resultados pois na view foi passado como resultados */
         data.resultados.forEach(produto => {
         const item = document.createElement('li');
         item.classList.add('list-group-item');
-        item.innerHTML = `<a href="/produto/${produto.id}" class="text-decoration-none text-dark d-block sugestao">
-        <img src="${produto.imagem}" width="80" height="80" class="me-3 rounded">${produto.nome}
+        item.innerHTML = 
+        `<a href="/produto/${produto.id}" class="text-decoration-none text-dark d-block sugestao">
+            <img src="${produto.imagem}" width="80" height="80" class="me-3 rounded">${produto.nome}
         </a>`;
         sugestoes.appendChild(item);
         });
