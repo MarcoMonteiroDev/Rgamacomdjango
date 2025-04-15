@@ -14,57 +14,61 @@
 
 <body>
 
-    <header class="c1 p-4"> <!-- topo -->
-        <nav class="navbar navbar-expand-lg  ">
-    
-          <div class="container">
-    
-            <a href="{% url 'index' %}" class="navbar-brand">
-              <img src="{% static 'images/logorgma.jpg' %}" alt="" width="200">
-            </a>
-    
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menus" aria>
-              <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            <div class="collapse navbar-collapse" id="menus">
-              <ul class="navbar-nav ms-auto">
-                {% for value, label in categorias %}
+  <header class="c1 p-4"> <!-- topo -->
+    <div class="d-flex justify-content-end borda">
+      <a href="#">entrar/cadastrar</a>
+    </div>
+   
+    <nav class="navbar navbar-expand-lg  ">
 
-                <li class="nav-item border-white">
-                  <a href="{% url 'index' %}?categoria={{value}}" class="nav-link {% if not forloop.last %} border-end {% endif %} navmenu {% if categoria_selecionada == value %} active {% endif %}">{{ label }}</a>
-                </li>                       <!-- apartir do ? inicia os parametros do querry string se for passar mais um parametro separa com &--> 
+      <div class="container">
 
-                {% endfor%}
-              </ul>
-            </div>
-    
-          </div>
-    
-        </nav>
-    
-        <div class="container">
-    
-          <form action="{% url 'index' %}" method="get" class="position-relative">
-            <div class="input-group">                 <!-- abaixo serve para para manter o text depois do submit -->
-              <input type="text" name="busca" value="{{ request.GET.busca }}" class="form-control" placeholder="busque seu produto" autocomplete="off">
-              <!-- abaixo serve para se o usuario ja filtrou por categoria essa informação e mantida na busca -->
-              {% if categoria_selecionada %}
-              <input type="hidden" name="categoria" value="{{ categoria_selecionada }}">
-              {% endif%}
+        <a href="{% url 'index' %}" class="navbar-brand">
+          <img src="{% static 'images/logorgma.jpg' %}" alt="" width="200">
+        </a>
 
-              <ul id="sugestoes" class="list-group position-absolute w-100 z-3 shadow" style="top: 100%; left: 0;"></ul>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menus" aria>
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-              <button type="submit" class="btn btn-dark">Buscar</button>
-            </div>
-                                                                                            <!-- esse top 100% que faz com que a lista seja criado logo a baixo da barra -->
-            <ul id="sugestoes" class="list-group position-absolute w-100 z-3 shadow" style="top: 100%; left: 0;"></ul>
-            
-          </form>
+        <div class="collapse navbar-collapse" id="menus">
+          <ul class="navbar-nav ms-auto">
+            {% for value, label in categorias %}
 
+            <li class="nav-item border-white">
+              <a href="{% url 'index' %}?categoria={{value}}" class="nav-link {% if not forloop.last %} border-end {% endif %} navmenu {% if categoria_selecionada == value %} active {% endif %}">{{ label }}</a>
+            </li>                       <!-- apartir do ? inicia os parametros do querry string se for passar mais um parametro separa com &--> 
+
+            {% endfor%}
+          </ul>
         </div>
-    
-      </header> <!-- fim topo -->
+
+      </div>
+
+    </nav>
+
+    <div class="container">
+
+      <form action="{% url 'index' %}" method="get" class="position-relative">
+        <div class="input-group">                 <!-- abaixo serve para para manter o text depois do submit -->
+          <input type="text" name="busca" value="{{ request.GET.busca }}" class="form-control" placeholder="busque seu produto" autocomplete="off">
+          <!-- abaixo serve para se o usuario ja filtrou por categoria essa informação e mantida na busca -->
+          {% if categoria_selecionada %}
+          <input type="hidden" name="categoria" value="{{ categoria_selecionada }}">
+          {% endif%}
+
+          <ul id="sugestoes" class="list-group position-absolute w-100 z-3 shadow" style="top: 100%; left: 0;"></ul>
+
+          <button type="submit" class="btn btn-dark">Buscar</button>
+        </div>
+                                                                                        <!-- esse top 100% que faz com que a lista seja criado logo a baixo da barra -->
+        <ul id="sugestoes" class="list-group position-absolute w-100 z-3 shadow" style="top: 100%; left: 0;"></ul>
+        
+      </form>
+
+    </div>
+  
+    </header> <!-- fim topo -->
 
   {% block content %} {% endblock %}
 
