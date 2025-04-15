@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'stdimage',
+    'usuarios,'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATI_URL = "staticfiles"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
+
+AUTH_USER_MODEL = "usuarios.CustomUsuario"
+
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
