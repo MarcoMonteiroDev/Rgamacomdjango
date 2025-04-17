@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Marco Monteiro</h1>
+        
+        {% if user.is_anonymous %}
+        
+            <a href="{% url 'login' %}">Login </a>
+        
+        {% else %}
+    
+            <div>
+                <p>Bem vindo {{ user.get_full_name }}</p>
+            </div>
+            
+            <form method="post" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </button>
+            </form>
+    
+        {% endif %}
+    </div>
+
+</body>
+</html>
