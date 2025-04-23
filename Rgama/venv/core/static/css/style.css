@@ -106,6 +106,16 @@ div.produto{
     grid-template-columns: repeat(auto-fit, minmax(180px,1.3fr));
 }
 
-.sugestao{
-    
+.entrar{
+    text-decoration: none;
+    color: white;
 }
+
+.dropdown-flex {
+    display: none;
+    flex-direction: column;
+  }
+
+  .dropdown-flex.show {
+    display: flex !important;
+  }
