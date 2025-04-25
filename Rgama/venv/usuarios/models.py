@@ -10,7 +10,7 @@ class UsuarioManager(BaseUserManager):
         if not email:
             raise ValueError("o E-mail é obrigatorio")
         email = self.normalize_email(email)
-        user = self.model(email = email, username = email, **extra_fields)
+        user = self.model(email = email, **extra_fields)
         user.set_password(password)
         user.save(using = self._db)
         return user
@@ -32,10 +32,11 @@ class UsuarioManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 class CustomUsuario(AbstractUser):
+    username = None
     email = models.EmailField("E-mail", unique=True)
     fone = models.CharField("Telefone", max_length=15)
 
-    USERNAME_FIELD = "email"
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name','fone']
 
     def __str__(self):
