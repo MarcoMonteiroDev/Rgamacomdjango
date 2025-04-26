@@ -2,6 +2,7 @@ from django.db import models
 from stdimage.models import StdImageField
 from django.db.models import signals
 from django.template.defaultfilters import slugify
+from django.conf import settings
 import uuid
 
 def produto_pre_save(signal, instance, sender, **kwargs):
@@ -52,7 +53,7 @@ class Produto(Base):
 
     def __str__(self):
         return self.nome
-    
+
 class Promo(Base):
     nome = models.CharField("Nome",max_length=40)
     imagem_promo = StdImageField("Promo", upload_to="promocoes", variations={"thumb":(1536,512)})
@@ -60,7 +61,21 @@ class Promo(Base):
     
     def __str__(self):
         return self.nome
-    
+
+class Carrinho(Base):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
+    chave_sessao = models.CharField(max_length=40, blank=True, null=True)
+
+    def total(self):
+        return sum(item.subtotal() for item in self.itens.all())
+
+class ItemCarrinho(Base):
+    carrinho = models.ForeignKey(Carrinho, related_name="itens", on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.PositiveIntegerField(default=1)
+
+    def subtotal(self):
+        return self.quantidade * self.produto.preco
 
 
 signals.pre_save.connect(produto_pre_save, sender=Produto)

@@ -1,10 +1,10 @@
-from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import TemplateView, ListView, RedirectView
 from django.views.generic.detail import DetailView
 from django.views import View
-from .models import Produto,Promo
+from .models import Produto, Promo, Carrinho, ItemCarrinho
 from django.http import JsonResponse
-# Create your views here.
+
 
 class IndexView(ListView):
     template_name = "index.html"
@@ -59,3 +59,39 @@ class Busca_Produtos(View):
             })
 
         return JsonResponse({"resultados": data})
+
+class CarrinhoView(TemplateView):
+    template_name = "detalhes_carrinho.html"
+
+    def get_carrinho(self):
+        chave_sessao = self.request.session.session_key
+        if not chave_sessao:
+            self.request.session.create()
+
+        carrinho, created = Carrinho.objects.get_or_create(chave_sessao=self.request.session.session_key)
+        return carrinho
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carrinho = self.get_carrinho
+        context["carrinho"] = carrinho
+
+        return context
+
+class AdicionarAoCarrinho(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        produto = get_object_or_404(Produto, id=self.kwargs["produto_id"])
+        carrinho, _ = Carrinho.objects.get_or_create(chave_sessao=self.request.session.session_key)
+        item, created = ItemCarrinho.objects.get_or_create(carrinho = carrinho, produto = produto)
+        if not created:
+            item.quantidade += 1
+            item.save()
+
+        return "/carrinho/"
+    
+class RemoverDoCarrinho(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        item = get_object_or_404(ItemCarrinho, id=self.kwargs["item_id"])
+        item.delete()
+
+        return "/carrinho/"
