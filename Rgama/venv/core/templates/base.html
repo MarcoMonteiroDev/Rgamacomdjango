@@ -18,8 +18,6 @@
 
     {% if user.is_anonymous %}
 
-    
-
     <div class="dropdown d-flex justify-content-end">
       <button class="btn btn-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Entrar/cadastrar
@@ -40,7 +38,7 @@
       </button>
 
       <ul class="dropdown-menu dropdown-menu-end dropdown-flex">
-        <li><a class="dropdown-item" href="#">Compras </a></li>
+        <li><a class="dropdown-item" href="{% url 'detalhes_carrinho' %}">Compras </a></li>
         <li><hr class="dropdown-divider"></li>
         <li class="ms-auto">
           <form method="post" action="{% url 'logout' %}" class="dropdown-item">

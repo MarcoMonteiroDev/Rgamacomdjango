@@ -1,62 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
-<!doctype html>
-<html lang="en">
+<div class="row mt-2 conteudo justify-content-center">
 
-<body id="produto">
+  <div class="col-lg lateral">
+  </div>
 
-  <div class="row  conteudo"> <!-- conteudo -->
+  <div class="col-12 col-lg-8 d-flex justify-content-center"> <!-- Corrigido aqui -->
 
+    <div class="prodfoco row align-items-center w-100" style="min-height: 60vh; max-width: 800px;"> <!-- Corrigido aqui -->
 
-    <div class="col-lg lateral">
-    </div>
-
-    <div class="col-lg-8 row align-items-center" style="height: 69.2vh;">
-
-      <div class="prodfoco row">
-        <div class="col-6 row m-2">
-          <img src="{{ produto.imagem.url }}" alt="">
-        </div>
-        
-        <div class="col mt-5" >
-          <h2>{{ produto.nome }}</h2>
-            <h3>R${{ produto.preco }} /{{ produto.medida }}</h3>
-            <h4>ou 2x 10,99 no cartao</h4>
-            
-            <label for="qtd">Quantidade</label>
-
-            <div class="Quantidade input-group">
-              <button class=" btn btn-dark">-</button>
-              <input type="tel" value="1" id="qtd" class="form-control">
-              <button class=" btn btn-dark">+</button>
-            </div>
-
-            <div class="total">
-              <label for="total">Total</label>
-              <button id="total">50,00 R$</button>
-            </div>
-
-        </div>
+      <div class="col-md-6">
+        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="img-fluid">
       </div>
 
-      <form action="{% url 'adicionar_carrinho' produto.id %}" method="get">
-        {% csrf_token %}
-        <button type="submit">Adicionar ao Carrinho</button>
-      </form>
+      <div class="col-md-6 mt-4">
+        <h2>{{ produto.nome }}</h2>
+        <h3>R$ {{ produto.preco }} / {{ produto.medida }}</h3>
+        <h4>ou 2x R$ 10,99 no cartão</h4>
+
+        <form action="{% url 'adicionar_carrinho' produto.id %}" method="post" class="mt-4" id="form-add-carrinho">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          
+          <div class="Quantidade input-group mb-3" style="max-width: 200px;">
+            <button type="button" class="btn btn-dark subtract">-</button>  <!-- Botão de subtrair -->
+            <input type="number" name="quantidade" value="1" id="qtd" class="form-control text-center">
+            <button type="button" class="btn btn-dark add">+</button>  <!-- Botão de adicionar -->
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100">Adicionar ao Carrinho</button>
+        </form>
+        
+      </div>
 
     </div>
 
-    <div class="col-lg lateral ">
-    </div>
+  </div>
 
-  </div> <!-- fim conteudo -->
+  <div class="col-lg lateral">
+  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-</body>
-
-</html>
-
+</div>
 {% endblock %}

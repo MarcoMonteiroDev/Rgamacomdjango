@@ -119,3 +119,14 @@ div.produto{
   .dropdown-flex.show {
     display: flex !important;
   }
+
+/* Remove os botões de incremento e decremento para campos de número */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: none; /* Remove para Firefox */
+}

@@ -8,7 +8,7 @@
   </tr>
   {% for item in carrinho.itens.all %}
   <tr>
-    <td>{{ item.produto.name }}</td>
+    <td>{{ item.produto.nome }}</td>
     <td>{{ item.quantidade }}</td>
     <td>R$ {{ item.subtotal }}</td>
     <td><a href="{% url 'remover_carrinho' item.id %}">Remover</a></td>

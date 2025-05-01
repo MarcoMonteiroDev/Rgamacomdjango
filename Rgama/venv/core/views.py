@@ -46,7 +46,7 @@ class ProdutoView(DetailView):
 class Busca_Produtos(View):
 
     def get(self, request):
-        termo = request.GET.get("bd","")#bd busca dinamica
+        termo = request.GET.get("bd","")# bd = busca dinamica
         produtos = Produto.objects.filter(nome__icontains = termo)[:5]
 
         data = []
@@ -77,17 +77,25 @@ class CarrinhoView(TemplateView):
         context["carrinho"] = carrinho
 
         return context
-
+    
 class AdicionarAoCarrinho(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         produto = get_object_or_404(Produto, id=self.kwargs["produto_id"])
         carrinho, _ = Carrinho.objects.get_or_create(chave_sessao=self.request.session.session_key)
+        quantidade = int(self.request.POST.get("quantidade", 1))
+        print(f"Quantidade recebida: {quantidade}")  # Verifique no console
+        """   created retorna booleano se o item foi criado agora ou nao """
         item, created = ItemCarrinho.objects.get_or_create(carrinho = carrinho, produto = produto)
+        """  se nao foi criado agora e porque ja existe """
         if not created:
-            item.quantidade += 1
-            item.save()
+            item.quantidade += quantidade
+        else:
+            item.quantidade = quantidade
 
-        return "/carrinho/"
+        item.save()
+
+        next_url = self.request.POST.get("next") or "/carrinho/"
+        return next_url
     
 class RemoverDoCarrinho(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
