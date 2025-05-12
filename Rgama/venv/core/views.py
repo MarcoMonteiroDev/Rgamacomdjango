@@ -4,6 +4,7 @@ from django.views.generic.detail import DetailView
 from django.views import View
 from .models import Produto, Promo, Carrinho, ItemCarrinho
 from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class IndexView(ListView):
@@ -78,21 +79,29 @@ class CarrinhoView(TemplateView):
 
         return context
     
-class AdicionarAoCarrinho(RedirectView):
+class AdicionarAoCarrinho(LoginRequiredMixin, RedirectView):
+    login_url = '/conta/login/'
+
     def get_redirect_url(self, *args, **kwargs):
         produto = get_object_or_404(Produto, id=self.kwargs["produto_id"])
-        carrinho, _ = Carrinho.objects.get_or_create(chave_sessao=self.request.session.session_key)
-        quantidade = int(self.request.POST.get("quantidade", 1))
-        print(f"Quantidade recebida: {quantidade}")  # Verifique no console
-        """   created retorna booleano se o item foi criado agora ou nao """
-        item, created = ItemCarrinho.objects.get_or_create(carrinho = carrinho, produto = produto)
-        """  se nao foi criado agora e porque ja existe """
-        if not created:
-            item.quantidade += quantidade
-        else:
-            item.quantidade = quantidade
 
-        item.save()
+        if self.request.user.is_authenticated:
+            usuario = self.request.user
+            carrinho, _ = Carrinho.objects.get_or_create(user=usuario, chave_sessao=self.request.session.session_key)
+            quantidade = int(self.request.POST.get("quantidade", 1))
+            """   created retorna booleano se o item foi criado agora ou nao """
+            item, created = ItemCarrinho.objects.get_or_create(carrinho = carrinho, produto = produto)
+            item.save()
+            """  se nao foi criado agora e porque ja existe """
+            if not created:
+                item.quantidade += quantidade
+                
+            else:
+                item.quantidade = quantidade
+
+        else:
+            return self.login_url
+
 
         next_url = self.request.POST.get("next") or "/carrinho/"
         return next_url

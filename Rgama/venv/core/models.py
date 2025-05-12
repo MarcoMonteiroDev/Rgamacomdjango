@@ -3,6 +3,7 @@ from stdimage.models import StdImageField
 from django.db.models import signals
 from django.template.defaultfilters import slugify
 from django.conf import settings
+from django.utils import timezone
 import uuid
 
 def produto_pre_save(signal, instance, sender, **kwargs):
@@ -65,9 +66,13 @@ class Promo(Base):
 class Carrinho(Base):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     chave_sessao = models.CharField(max_length=40, blank=True, null=True)
+    criado_em = models.DateTimeField(auto_now_add=True)
 
     def total(self):
         return sum(item.subtotal() for item in self.itens.all())
+
+    def __str__(self):
+        return f"Carrinho #{self.id}"
 
 class ItemCarrinho(Base):
     carrinho = models.ForeignKey(Carrinho, related_name="itens", on_delete=models.CASCADE)
