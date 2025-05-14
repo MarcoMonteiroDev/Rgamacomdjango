@@ -5,6 +5,8 @@ from django.views import View
 from .models import Produto, Promo, Carrinho, ItemCarrinho
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
+import json
 
 
 class IndexView(ListView):
@@ -84,31 +86,70 @@ class AdicionarAoCarrinho(LoginRequiredMixin, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         produto = get_object_or_404(Produto, id=self.kwargs["produto_id"])
+        quantidade = int(self.request.POST.get("quantidade", 1))
 
-        if self.request.user.is_authenticated:
-            usuario = self.request.user
-            carrinho, _ = Carrinho.objects.get_or_create(user=usuario, chave_sessao=self.request.session.session_key)
-            quantidade = int(self.request.POST.get("quantidade", 1))
-            """   created retorna booleano se o item foi criado agora ou nao """
-            item, created = ItemCarrinho.objects.get_or_create(carrinho = carrinho, produto = produto)
-            item.save()
-            """  se nao foi criado agora e porque ja existe """
-            if not created:
-                item.quantidade += quantidade
-                
-            else:
-                item.quantidade = quantidade
+        # Obtém o carrinho da sessão ou cria um novo dicionário
+        carrinho = self.request.session.get("carrinho", {})
 
+        produto_id = str(produto.id)  # Sempre usar string como chave de dicionário em JSON/session
+
+        if produto_id in carrinho:
+            carrinho[produto_id]["quantidade"] += quantidade
         else:
-            return self.login_url
+            carrinho[produto_id] = {
+                "nome": produto.nome,
+                "preco": float(produto.preco),  # Decimal não é serializável em JSON
+                "quantidade": quantidade,
+                "imagem": produto.imagem.url if produto.imagem else "",
+            }
 
+        # Salva o carrinho de volta na sessão
+        self.request.session["carrinho"] = carrinho
+        self.request.session.modified = True  # Garante que a sessão seja salva
 
+        # Redireciona para próxima página
         next_url = self.request.POST.get("next") or "/carrinho/"
         return next_url
     
-class RemoverDoCarrinho(RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        item = get_object_or_404(ItemCarrinho, id=self.kwargs["item_id"])
-        item.delete()
+class RemoverDoCarrinho(View):
+    def post(self, request, *args, **kwargs):
+        produto_id = str(self.kwargs["produto_id"])  # garantir que seja string
+        carrinho = request.session.get("carrinho", {})
 
-        return "/carrinho/"
+        if produto_id in carrinho:
+            del carrinho[produto_id]
+            request.session["carrinho"] = carrinho
+            request.session.modified = True
+
+        return HttpResponseRedirect("/carrinho/")
+
+class AtualizarQuantidade(View):
+     def post(self, request, *args, **kwargs):
+        carrinho = request.session.get("carrinho", {})
+
+        for produto_id in carrinho.keys():
+            campo_quantidade = f"quantidade_{produto_id}"
+            nova_quantidade = int(request.POST.get(campo_quantidade, carrinho[produto_id]["quantidade"]))
+            carrinho[produto_id]["quantidade"] = max(nova_quantidade, 1)
+
+        request.session["carrinho"] = carrinho
+        request.session.modified = True
+
+        return HttpResponseRedirect("/carrinho/")
+
+class VerCarrinhoView(TemplateView):
+    template_name= "carrinho.html"
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        carrinho = self.request.session.get("carrinho",{})
+
+        total = 0
+        for item in carrinho.values():
+            subtotal = item["quantidade"] * item["preco"]
+            item["subtotal"] = round(subtotal,2)
+            total += subtotal
+
+        context["carrinho"] = carrinho
+        context["total"] = round(total, 2)
+        return context

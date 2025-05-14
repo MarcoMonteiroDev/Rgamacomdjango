@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+<form method="post" action="{% url 'atualizar_quantidade' %}">
+  {% csrf_token %}
+  <table>
+    {% for produto_id, item in carrinho.items %}
+      <tr>
+        <td>{{ item.nome }}</td>
+        <td>
+          <input type="number" name="quantidade_{{ produto_id }}" value="{{ item.quantidade }}" min="1">
+        </td>
+        <td>R$ {{ item.subtotal }}</td>
+        <td>
+          <form action="{% url 'remover_carrinho' produto_id=produto_id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Remover</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <button type="submit">Atualizar e Finalizar</button>
+</form>
+
+
+    
+</body>
+</html>
