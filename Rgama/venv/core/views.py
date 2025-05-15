@@ -153,3 +153,29 @@ class VerCarrinhoView(TemplateView):
         context["carrinho"] = carrinho
         context["total"] = round(total, 2)
         return context
+
+class CheckOutView(TemplateView):
+    template_name = "checkout.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carrinho = self.request.session.get("carrinho",{})
+
+        total = 0
+        for item in carrinho.values():
+            subtotal = item["quantidade"] * item["preco"]
+            item["subtotal"] = round(subtotal, 2)
+            total += subtotal
+
+        context["carrinho"] = carrinho
+        context["total"] = round(total, 2)
+        return context
+
+    def post(self, request, *args, **kwargs):
+
+
+        
+        request.session["carrinho"] = {}
+        request.session.modified = True
+        print("pedido feito com sucesso")
+        return HttpResponseRedirect("/carrinho/")

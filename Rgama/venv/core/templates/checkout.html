@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<form method="post">
+{% csrf_token %}
+
+<h2>Dados do Cliente</h2>
+<label for="nome">Nome:</label>
+<input type="text" id="nome" name="nome" required><br>
+
+<label for="Email">Email:</label>
+<input type="text" id="email" name="email" required><br>
+
+<label for="endereco">Endereço:</label>
+<input type="text" id="erdereco" name="endereco" required><br>
+
+<h2>Resumo do Pedido</h2>
+  <table>
+    <tr>
+      <th>Produto</th>
+      <th>Qtd</th>
+      <th>Subtotal</th>
+    </tr>
+    {% for item in carrinho.values %}
+    <tr>
+      <td>{{ item.nome }}</td>
+      <td>{{ item.quantidade }}</td>
+      <td>R$ {{ item.subtotal }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="2"><strong>Total:</strong></td>
+      <td><strong>R$ {{ total }}</strong></td>
+    </tr>
+  </table>
+
+  <button type="submit">Finalizar Pedido</button>
+
+</form>
+
+
+</body>
+</html>
