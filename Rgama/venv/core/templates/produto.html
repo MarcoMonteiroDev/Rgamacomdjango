@@ -2,51 +2,38 @@
 {% load static %}
 
 {% block content %}
-<div class="row mt-2 conteudo justify-content-center">
+<div class="prodfoco row align-items-center w-100"> <!-- Corrigido aqui -->
 
-  <div class="col-lg lateral">
+  <div class="col-md-6">
+    <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="img-fluid">
   </div>
 
-  <div class="col-12 col-lg-8 d-flex justify-content-center">
+  <div class="col-md-6 mt-4">
+    <h2>{{ produto.nome }}</h2>
+    <h3>R$ {{ produto.preco }} / {{ produto.medida }}</h3>
+    <h4>ou 2x R$ 10,99 no cartão</h4>
 
-    <div class="prodfoco row align-items-center w-100" style="min-height: 60vh; max-width: 800px;"> <!-- Corrigido aqui -->
-
-      <div class="col-md-6">
-        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="img-fluid">
-      </div>
-
-      <div class="col-md-6 mt-4">
-        <h2>{{ produto.nome }}</h2>
-        <h3>R$ {{ produto.preco }} / {{ produto.medida }}</h3>
-        <h4>ou 2x R$ 10,99 no cartão</h4>
-
-        <form action="{% url 'adicionar_carrinho' produto.id %}" method="post" class="mt-4" id="form-add-carrinho">
-          {% csrf_token %}
-          <input type="hidden" name="next" value="{{ request.path }}">
-          
-          <div class="Quantidade input-group mb-3" style="max-width: 200px;">
-            <button type="button" class="btn btn-dark subtract">-</button>  <!-- Botão de subtrair -->
-            <input type="number" name="quantidade" value="1" id="qtd" class="form-control text-center">
-            <button type="button" class="btn btn-dark add">+</button>  <!-- Botão de adicionar -->
-          </div>
-          
-          <button type="submit" class="btn btn-primary w-100">Adicionar ao Carrinho</button>
-        </form>
-        
-      </div>
-
-      {% if not request.user.is_authenticated %}
-        <div class="alert alert-info">
-          Faça <a href="{% url 'login' %}?next={{ request.path }}">login</a> para adicionar ao carrinho.
-        </div>
-      {% endif %}
+    <form action="{% url 'adicionar_carrinho' produto.id %}" method="post" class="mt-4" id="form-add-carrinho">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.path }}">
       
+      <div class="Quantidade input-group mb-3" style="max-width: 200px;">
+        <button type="button" class="btn btn-dark subtract">-</button>  <!-- Botão de subtrair -->
+        <input type="number" name="quantidade" value="1" id="qtd" class="form-control text-center">
+        <button type="button" class="btn btn-dark add">+</button>  <!-- Botão de adicionar -->
+      </div>
+      
+      <button type="submit" class="btn btn-primary w-100">Adicionar ao Carrinho</button>
+    </form>
+    
+  </div>
+
+  {% if not request.user.is_authenticated %}
+    <div class="alert alert-info">
+      Faça <a href="{% url 'login' %}?next={{ request.path }}">login</a> para adicionar ao carrinho.
     </div>
-
-  </div>
-
-  <div class="col-lg lateral">
-  </div>
-
+  {% endif %}
+  
 </div>
+
 {% endblock %}

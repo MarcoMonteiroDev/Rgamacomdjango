@@ -37,6 +37,7 @@ div > h4{
 
 .conteudo{
     width: 100.8%;
+    min-height: 45vw; 
 }
 
 .lateral{

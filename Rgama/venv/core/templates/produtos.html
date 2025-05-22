@@ -1,12 +1,5 @@
 {% load static %}
 
-<div class="row mt-2 conteudo justify-content-center conteudo"> 
-  
-  <div class="col-lg lateral">
-  </div>
-  
-  <div class="col-lg-8 col-sm-12 m-sm-auto">
-    
     {% if request.GET.busca %}
     <div class="col-12 mb-3">
       <div class="alert alert-warning py-2 px-3 small">
@@ -33,9 +26,3 @@
             {% endif %}
           {% endfor %}
         </div>
-    </div>
-  
-    <div class="col-lg lateral ">
-    </div>
-  
-  </div>

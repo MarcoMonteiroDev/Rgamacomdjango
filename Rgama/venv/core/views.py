@@ -85,6 +85,10 @@ class AdicionarAoCarrinho(LoginRequiredMixin, RedirectView):
     login_url = '/conta/login/'
 
     def get_redirect_url(self, *args, **kwargs):
+        # Garante que a sessão esteja ativa
+        if not self.request.session.session_key:
+            self.request.session.create()
+
         produto = get_object_or_404(Produto, id=self.kwargs["produto_id"])
         quantidade = int(self.request.POST.get("quantidade", 1))
 
@@ -93,6 +97,7 @@ class AdicionarAoCarrinho(LoginRequiredMixin, RedirectView):
 
         produto_id = str(produto.id)  # Sempre usar string como chave de dicionário em JSON/session
 
+        # Garante que o item seja adicionado corretamente
         if produto_id in carrinho:
             carrinho[produto_id]["quantidade"] += quantidade
         else:
@@ -108,8 +113,7 @@ class AdicionarAoCarrinho(LoginRequiredMixin, RedirectView):
         self.request.session.modified = True  # Garante que a sessão seja salva
 
         # Redireciona para próxima página
-        next_url = self.request.POST.get("next") or "/carrinho/"
-        return next_url
+        return self.request.POST.get("next") or "/carrinho/"
     
 class RemoverDoCarrinho(View):
     def post(self, request, *args, **kwargs):
