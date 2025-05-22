@@ -72,3 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
     inputQtd.value = quantidadeAtual;
   });
 });
+
+function removerDoCarrinho(produtoid) {
+  const form = document.getElementById('remover-form');
+  form.action = `/carrinho/rmv/${produtoid}`;  // ajuste a URL conforme seu padrão
+  form.submit();
+}

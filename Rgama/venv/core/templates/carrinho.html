@@ -25,16 +25,17 @@
         <td>R$ {{ item.subtotal }}</td>
         <td><img src="{{ item.imagem }}" alt="" width="80"></td>
         <td>
-          <form action="{% url 'remover_carrinho' produto_id=produto_id %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Remover</button>
-          </form>
+          <a href="#" onclick="removerDoCarrinho('{{ produto_id }}')">Remover</a>
         </td>
       </tr>
-    {% endfor %}
-  </table>
-
-  <button type="submit">Atualizar e Finalizar</button>
-</form>
-
+      {% endfor %}
+    </table>
+    
+    <button type="submit">Atualizar e Finalizar</button>
+  </form>
+  
+  <!-- Formulário oculto -->
+  <form id="remover-form" method="post" style="display:none;">
+    {% csrf_token %}
+  </form>
 {% endblock %}
