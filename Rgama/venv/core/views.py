@@ -1,11 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView, RedirectView
 from django.views.generic.detail import DetailView
 from django.views import View
-from .models import Produto, Promo, Carrinho, ItemCarrinho
+from .models import Produto, Promo, Carrinho, ItemCarrinho, Pedido, ItemPedido
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
+from decimal import Decimal
 import json
 
 
@@ -139,7 +140,7 @@ class AtualizarQuantidade(View):
         request.session["carrinho"] = carrinho
         request.session.modified = True
 
-        return HttpResponseRedirect("/carrinho/")
+        return HttpResponseRedirect("/checkout/")
 
 class VerCarrinhoView(TemplateView):
     template_name= "carrinho.html"
@@ -176,7 +177,39 @@ class CheckOutView(TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
+        carrinho = request.session.get("carrinho", {})
+        if not carrinho:
+            return redirect("/carrinho/")
 
+        # Pega os dados do formulário
+        nome = request.POST.get("nome")
+        email = request.POST.get("email")
+        endereco = request.POST.get("endereco")
+
+        total = sum(item["quantidade"] * item["preco"] for item in carrinho.values())
+
+        pedido = Pedido.objects.create(
+            usuario=request.user if request.user.is_authenticated else None,
+            nome=nome,
+            email=email,
+            endereco=endereco,
+            total=round(Decimal(total), 2)
+        )
+
+        for produto_id, item in carrinho.items():
+            try:
+                produto = Produto.objects.get(id=produto_id)
+            except Produto.DoesNotExist:
+                continue
+
+            ItemPedido.objects.create(
+                pedido=pedido,
+                produto=produto,
+                nome=item["nome"],
+                quantidade=item["quantidade"],
+                preco_unitario=item["preco"],
+                subtotal=round(Decimal(item["quantidade"] * item["preco"]), 2)
+            )
 
         
         request.session["carrinho"] = {}
