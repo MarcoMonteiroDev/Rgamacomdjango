@@ -36,8 +36,8 @@ div > h4{
 }
 
 .conteudo{
-    width: 100.8%;
-    min-height: 45vw; 
+    width: 100.6%;
+    min-height: 61vh; 
 }
 
 .lateral{
@@ -65,10 +65,6 @@ div.produto{
 .tituloprod{
     color: #000000;
     text-decoration: none;
-}
-
-.prodfoco{
-    height: 400px;
 }
 
 .imgprodfoco{

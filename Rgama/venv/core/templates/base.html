@@ -10,7 +10,7 @@
   integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/mobile.css' %}" media="screen and (max-width: 768px)">
-  <link rel="stylesheet" href="{% static 'css/gg.css' %}" media="screen and (min-width: 1400px)">
+  <link rel="stylesheet" href="{% static 'css/gg.css' %}" media="screen and (min-width: 1850px)">
 </head>
 
 <body>
@@ -107,14 +107,14 @@
     </header> <!-- fim topo -->
 
     {% block carrosel %}{% endblock %}
-    
+
     <main>
       <div class="row mt-2 justify-content-center conteudo"> 
         
         <div class="col-sm lateral">
         </div>
         
-        <div class="col-lg-8 col-sm-12 m-sm-auto ps-5">
+        <div class="col-lg-8 col-sm-12 mt-sm-5 ps-5">
           {% block content %} {% endblock %}
         </div>
         
