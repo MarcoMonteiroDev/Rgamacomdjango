@@ -4,19 +4,21 @@
 {% block content %}
 
 <h2>Seu Carrinho</h2>
-
-<form method="post" action="{% url 'atualizar_quantidade' %}">
+{% if not carrinho.items %}
+  <h1>voce nao tem pedidos ainda</h1>
+{% else %}
+  <form method="post" action="{% url 'atualizar_quantidade' %}">
   {% csrf_token %}
-  <table>
-    <tr>
-      <th>Produto</th>
-      <th>Quantidade</th>
-      <th>Subtotal</th>
-      <th>Imagem</th>
-      <th>Remover</th>
-    </tr>
+    <table>
+      <tr>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Subtotal</th>
+        <th>Imagem</th>
+        <th>Remover</th>
+      </tr>
 
-    {% for produto_id, item in carrinho.items %}
+      {% for produto_id, item in carrinho.items %}
       <tr>
         <td>{{ item.nome }}</td>
         <td>
@@ -28,14 +30,15 @@
           <a href="#" onclick="removerDoCarrinho('{{ produto_id }}')">Remover</a>
         </td>
       </tr>
-      {% endfor %}
+        {% endfor %}
     </table>
     
     <button type="submit">Atualizar e Finalizar</button>
   </form>
-  
-  <!-- Formulário oculto -->
-  <form id="remover-form" method="post" style="display:none;">
-    {% csrf_token %}
-  </form>
+    
+    <!-- Formulário oculto -->
+    <form id="remover-form" method="post" style="display:none;">
+      {% csrf_token %}
+    </form>
+  {% endif %}
 {% endblock %}
