@@ -117,8 +117,8 @@ div.produto{
     flex-direction: column;
   }
 
-  .dropdown-flex.show {
-    display: flex !important;
+.dropdown-flex.show {
+display: flex !important;
   }
 
 /* Remove os botões de incremento e decremento para campos de número */

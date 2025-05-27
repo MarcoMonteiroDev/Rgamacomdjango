@@ -97,7 +97,7 @@
 
           <button type="submit" class="btn btn-dark">Buscar</button>
         </div>
-                                                                                        <!-- esse top 100% que faz com que a lista seja criado logo a baixo da barra -->
+                  <!-- esse top 100% que faz com que a lista seja criado logo a baixo da barra -->
         <ul id="sugestoes" class="list-group position-absolute w-100 z-3 shadow" style="top: 100%; left: 0;"></ul>
         
       </form>
@@ -106,20 +106,23 @@
   
     </header> <!-- fim topo -->
 
-
-      <div class="row mt-2 conteudo justify-content-center conteudo"> 
+    {% block carrosel %}{% endblock %}
+    
+    <main>
+      <div class="row mt-2 justify-content-center conteudo"> 
         
-        <div class="col-lg lateral">
+        <div class="col-sm lateral">
         </div>
         
-          <div class="col-lg-8 col-sm-12 m-sm-auto ps-5">
-            {% block content %} {% endblock %}
-          </div>
+        <div class="col-lg-8 col-sm-12 m-sm-auto ps-5">
+          {% block content %} {% endblock %}
+        </div>
         
-        <div class="col-lg lateral ">
+        <div class="col-sm lateral ">
         </div>
         
       </div>
+    </main>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
