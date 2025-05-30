@@ -10,8 +10,11 @@
 
   <div class="col-md-6 mt-4">
     <h2>{{ produto.nome }}</h2>
-    <h3>R$ {{ produto.preco }} / {{ produto.medida }}</h3>
-    <h4>ou 2x R$ 10,99 no cartão</h4>
+    <h3 id="preco-unidade" data-valor="{{ produto.preco|stringformat:'f' }}">
+      R$ {{ produto.preco }} /{{ produto.medida }}
+    </h3>
+    <h4 id="parcelado">{{ produto.preco }} no cartão</h4>
+    <p> {{ produto.descricao}} </p>
 
     <form action="{% url 'adicionar_carrinho' produto.id %}" method="post" class="mt-4" id="form-add-carrinho">
       {% csrf_token %}
@@ -29,7 +32,7 @@
   </div>
 
   {% if not request.user.is_authenticated %}
-    <div class="alert alert-info">
+    <div class="alert alert-info mt-3">
       Faça <a href="{% url 'login' %}?next={{ request.path }}">login</a> para adicionar ao carrinho.
     </div>
   {% endif %}
