@@ -39,7 +39,7 @@ class Produto(Base):
         ("L","Litros")
     )
 
-    nome = models.CharField("Nome", max_length=80)
+    nome = models.CharField("Nome", max_length=40)
     preco = models.DecimalField("Preço",max_digits=8, decimal_places=2)
     descricao = models.TextField("Descrição", max_length=150)
     estoque = models.DecimalField("Estoque", max_digits=8, decimal_places=2)
