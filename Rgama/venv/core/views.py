@@ -7,7 +7,8 @@ from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from decimal import Decimal
-import json
+from django.contrib import messages
+import json, re
 
 
 class IndexView(ListView):
@@ -183,15 +184,24 @@ class CheckOutView(TemplateView):
 
         # Pega os dados do formulário
         nome = request.POST.get("nome")
-        email = request.POST.get("email")
         endereco = request.POST.get("endereco")
+        telefone = request.POST.get("telefone")
+
+        if not re.match(r'^\(\d{2}\)\d{5}-\d{4}$', telefone):
+            messages.error(request, "Telefone inválido. Use o formato (99)99999-9999.")
+            return redirect("/checkout/")  # Voltar para o formulário
+
+        # Validação de campos obrigatórios
+        if not nome or not endereco or not telefone:
+            messages.error(request, "Todos os campos são obrigatórios.")
+            return redirect("/checkout/")
 
         total = sum(item["quantidade"] * item["preco"] for item in carrinho.values())
 
         pedido = Pedido.objects.create(
             usuario=request.user if request.user.is_authenticated else None,
             nome=nome,
-            email=email,
+            telefone=telefone,
             endereco=endereco,
             total=round(Decimal(total), 2)
         )

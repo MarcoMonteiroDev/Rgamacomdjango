@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const qtd = parseInt(inputQtd.value) || 1;
     const total = precoUnitario * qtd;
     const totalcomjuros = total * 1.10;
-    const parcela = (totalcomjuros / 2).toFixed(2).replace('.', ',');
+    const parcela = (totalcomjuros / 10).toFixed(2).replace('.', ','); // corrigido pra 10x
     valorParcelado.innerText = `Ou 10x R$ ${parcela} no cartão`;
   }
 
@@ -103,5 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
       form.submit();
     }
   };
+
+  /* ========== MÁSCARA DE TELEFONE ========== */
+  const telefoneInput = document.getElementById("telefone");
+  if (telefoneInput && typeof Inputmask !== 'undefined') {
+    Inputmask({"mask": "(99) 99999-9999"}).mask(telefoneInput);
+  }
 
 });
