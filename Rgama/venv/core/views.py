@@ -96,26 +96,34 @@ class AdicionarAoCarrinho(LoginRequiredMixin, RedirectView):
 
         # Obtém o carrinho da sessão ou cria um novo dicionário
         carrinho = self.request.session.get("carrinho", {})
-
         produto_id = str(produto.id)  # Sempre usar string como chave de dicionário em JSON/session
+        quantidade_existente = carrinho.get(produto_id,{}).get("quantidade", 0)
 
-        # Garante que o item seja adicionado corretamente
-        if produto_id in carrinho:
-            carrinho[produto_id]["quantidade"] += quantidade
+        quantidade_total = quantidade_existente + quantidade
+
+        if quantidade_total > produto.estoque:
+            messages.error(
+                self.request,f"Não há estoque suficiente para '{produto.nome}'. Estoque disponível: {produto.estoque}."
+            )
+            return self.request.POST.get("next") or f"/produto/{produto.id}/"
         else:
-            carrinho[produto_id] = {
-                "nome": produto.nome,
-                "preco": float(produto.preco),  # Decimal não é serializável em JSON
-                "quantidade": quantidade,
-                "imagem": produto.imagem.url if produto.imagem else "",
-            }
+            # Garante que o item seja adicionado corretamente
+            if produto_id in carrinho:
+                carrinho[produto_id]["quantidade"] += quantidade
+            else:
+                carrinho[produto_id] = {
+                    "nome": produto.nome,
+                    "preco": float(produto.preco),  # Decimal não é serializável em JSON
+                    "quantidade": quantidade,
+                    "imagem": produto.imagem.url if produto.imagem else "",
+                }
 
-        # Salva o carrinho de volta na sessão
-        self.request.session["carrinho"] = carrinho
-        self.request.session.modified = True  # Garante que a sessão seja salva
+            # Salva o carrinho de volta na sessão
+            self.request.session["carrinho"] = carrinho
+            self.request.session.modified = True  # Garante que a sessão seja salva
 
-        # Redireciona para próxima página
-        return self.request.POST.get("next") or "/carrinho/"
+            # Redireciona para próxima página
+            return self.request.POST.get("next") or "/carrinho/"
     
 class RemoverDoCarrinho(View):
     def post(self, request, *args, **kwargs):
@@ -211,6 +219,15 @@ class CheckOutView(TemplateView):
                 produto = Produto.objects.get(id=produto_id)
             except Produto.DoesNotExist:
                 continue
+
+            # Atualiza estoque antes de salvar ItemPedido (importante)
+            if produto.estoque >= item["quantidade"]:
+                produto.estoque -= item["quantidade"]
+                produto.save()
+            else:
+                messages.error(request, f"Estoque insuficiente para o produto {produto.nome}.")
+                pedido.delete()  # opcional, para cancelar o pedido se falhar
+                return redirect("/checkout/")
 
             ItemPedido.objects.create(
                 pedido=pedido,

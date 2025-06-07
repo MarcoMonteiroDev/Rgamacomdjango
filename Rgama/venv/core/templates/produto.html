@@ -2,6 +2,14 @@
 {% load static %}
 
 {% block content %}
+{% if messages %}
+  <div class="alert alert-danger">
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <div class="prodfoco row align-items-center w-100"> <!-- Corrigido aqui -->
 
   <div class="col-md-6">
@@ -15,6 +23,7 @@
     </h3>
     <h4 id="parcelado">{{ produto.preco }} no cartão</h4>
     <p> {{ produto.descricao}} </p>
+    <p>Quantidade Em Estoque {{ produto.estoque|floatformat:0 }}</p>
 
     <form action="{% url 'adicionar_carrinho' produto.id %}" method="post" class="mt-4" id="form-add-carrinho">
       {% csrf_token %}

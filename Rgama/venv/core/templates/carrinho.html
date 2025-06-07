@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-
 <h2>Seu Carrinho</h2>
 {% if not carrinho.items %}
   <h1>Voce não tem itens no carrinho adicione itens ou veja seus pedidos concluidos <a href="{% url 'pedidos' %}">Aqui</a></h1>
