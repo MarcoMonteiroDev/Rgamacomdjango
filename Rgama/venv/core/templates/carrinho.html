@@ -5,7 +5,7 @@
 
 <h2>Seu Carrinho</h2>
 {% if not carrinho.items %}
-  <h1>voce nao tem pedidos ainda</h1>
+  <h1>Voce não tem itens no carrinho adicione itens ou veja seus pedidos concluidos <a href="{% url 'pedidos' %}">Aqui</a></h1>
 {% else %}
   <form method="post" action="{% url 'atualizar_quantidade' %}">
   {% csrf_token %}
@@ -33,7 +33,7 @@
         {% endfor %}
     </table>
     
-    <button type="submit">Atualizar e Finalizar</button>
+    <button type="submit">Finalizar Pedido</button>
   </form>
     
     <!-- Formulário oculto -->

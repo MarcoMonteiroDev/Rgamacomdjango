@@ -34,19 +34,18 @@
     {% else %}
 
     <div class="dropdown d-flex justify-content-end">
-      <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Bem Vindo {{user.first_name}}
+      <button id="dropdown-usuario" class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Bem Vindo {{user.first_name}} <span id="carrinho-contador" class="badge badge-notify">{{ request.session.carrinho|length }}</span>
       </button>
-
-      <ul class="dropdown-menu dropdown-menu-end dropdown-flex">
-        <li><a class="dropdown-item" href="{% url 'carrinho' %}">Carrinho</a></li>
-        <li><a class="dropdown-item" href="{% url 'carrinho' %}">Meus Pedidos</a></li>
+      <ul class="dropdown-menu dropdown-menu-end dropdown-flex" >
+        <li><a class="dropdown-item" href="{% url 'carrinho' %}">Carrinho <span id="carrinho-contador" class="badge badge-notify">{{ request.session.carrinho|length }}</span></a></li>
+        <li><a class="dropdown-item" href="{% url 'pedidos' %}">Meus Pedidos</a></li>
         <li><hr class="dropdown-divider"></li>
         <li class="ms-auto">
           <form method="post" action="{% url 'logout' %}" class="dropdown-item">
             {% csrf_token %}
             <button type="submit" class="btn btn-outline-danger">
-                Sair
+              Sair
             </button>
         </form>
         </li>

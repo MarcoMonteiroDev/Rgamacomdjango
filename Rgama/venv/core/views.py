@@ -226,3 +226,12 @@ class CheckOutView(TemplateView):
         request.session.modified = True
         print("pedido feito com sucesso")
         return HttpResponseRedirect("/carrinho/")
+
+class PedidosView(LoginRequiredMixin, ListView):
+    template_name = "pedidos.html"
+    model = "pedido"
+    context_object_name = "pedidos"
+    ordering = ['-criado']
+
+    def get_queryset(self):
+        return Pedido.objects.filter(usuario=self.request.user).order_by('-criado_em')

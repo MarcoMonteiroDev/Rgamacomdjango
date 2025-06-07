@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import IndexView, ProdutoView, Busca_Produtos, CarrinhoView, AdicionarAoCarrinho, RemoverDoCarrinho, VerCarrinhoView, AtualizarQuantidade, CheckOutView
+from .views import IndexView, ProdutoView, Busca_Produtos, CarrinhoView, AdicionarAoCarrinho, RemoverDoCarrinho, VerCarrinhoView, AtualizarQuantidade, CheckOutView, PedidosView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -12,6 +12,7 @@ urlpatterns =[
     path("carrinho/rmv/<int:produto_id>", RemoverDoCarrinho.as_view(),name="remover_carrinho"),
     path("carrinho/atl/", AtualizarQuantidade.as_view(),name="atualizar_quantidade"),
     path("checkout/", CheckOutView.as_view(),name="checkout"),
+    path("pedidos/", PedidosView.as_view(), name="pedidos"),
 ]
 
 if settings.DEBUG:

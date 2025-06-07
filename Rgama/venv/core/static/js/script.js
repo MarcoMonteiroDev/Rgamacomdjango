@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* ========== BUSCA DINÂMICA ========== */
+  // ================== BUSCA DINÂMICA ==================
   const inputBusca = document.querySelector('input[name="busca"]');
   const sugestoes = document.getElementById('sugestoes');
 
@@ -41,13 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ========== CONTROLE DE QUANTIDADE + PARCELAMENTO ========== */
+  // ================== CONTROLE DE QUANTIDADE + PARCELAMENTO ==================
   const btnAdd = document.querySelector('.add');
   const btnSubtract = document.querySelector('.subtract');
   const inputQtd = document.querySelector('#qtd');
   const form = document.querySelector('#form-add-carrinho');
   const valorParcelado = document.querySelector('#parcelado');
-
   const precoElement = document.getElementById('preco-unidade');
   const precoUnitario = precoElement ? parseFloat(precoElement.dataset.valor) : 0;
 
@@ -57,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const qtd = parseInt(inputQtd.value) || 1;
     const total = precoUnitario * qtd;
     const totalcomjuros = total * 1.10;
-    const parcela = (totalcomjuros / 10).toFixed(2).replace('.', ','); // corrigido pra 10x
+    const parcela = (totalcomjuros / 10).toFixed(2).replace('.', ',');
     valorParcelado.innerText = `Ou 10x R$ ${parcela} no cartão`;
   }
 
@@ -89,13 +88,20 @@ document.addEventListener('DOMContentLoaded', function () {
       if (quantidadeAtual < 1) {
         event.preventDefault();
         alert('A quantidade precisa ser no mínimo 1.');
+        return;
+      }
+
+      const contador = document.getElementById('dropdown-usuario');
+      if (contador) {
+        contador.classList.add('pulsar');
+        setTimeout(() => contador.classList.remove('pulsar'), 300);
       }
     });
   }
 
-  atualizarParcelamento(); // Inicializa no carregamento
+  atualizarParcelamento();
 
-  /* ========== REMOVER DO CARRINHO ========== */
+  // ================== REMOVER DO CARRINHO ==================
   window.removerDoCarrinho = function(produtoid) {
     const form = document.getElementById('remover-form');
     if (form) {
@@ -104,30 +110,27 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  /* ========== MÁSCARA DE TELEFONE ========== */
-const telInput = document.getElementById("telefone");
+  // ================== MÁSCARA DE TELEFONE ==================
+  const telInput = document.getElementById("telefone");
 
-if (telInput) {
-  telInput.addEventListener("input", function (e) {
-    let valor = e.target.value.replace(/\D/g, ""); // Remove tudo que não for número
+  if (telInput) {
+    telInput.addEventListener("input", function (e) {
+      let valor = e.target.value.replace(/\D/g, "");
 
-    if (valor.length > 11) valor = valor.slice(0, 11); // Limita a 11 dígitos
+      if (valor.length > 11) valor = valor.slice(0, 11);
 
-    // Aplica a máscara conforme o tamanho do número
-    if (valor.length > 10) {
-      // Celular com 9 dígitos
-      valor = valor.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
-    } else if (valor.length > 6) {
-      // Celular ou fixo com 8 dígitos
-      valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4})$/, "($1) $2-$3");
-    } else if (valor.length > 2) {
-      valor = valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2");
-    } else {
-      valor = valor.replace(/^(\d*)$/, "($1");
-    }
+      if (valor.length > 10) {
+        valor = valor.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+      } else if (valor.length > 6) {
+        valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4})$/, "($1) $2-$3");
+      } else if (valor.length > 2) {
+        valor = valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2");
+      } else {
+        valor = valor.replace(/^(\d*)$/, "($1");
+      }
 
-    e.target.value = valor;
-  });
-}
+      e.target.value = valor;
+    });
+  }
 
 });

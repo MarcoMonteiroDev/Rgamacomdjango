@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>meus pedidos</h2>
+
+{% if pedidos %}
+    {% for pedido in pedidos %}
+
+    <div class="card mb-3">
+        <div class="card-header text-success">
+            Pedido #{{ pedido.id }} - {{ pedido.criado }}
+            Total: R$ {{ pedido.total }}
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for item in pedido.itens.all %}
+            <li class="list-group-item"> {{ item.nome }} - {{ item.preco_unitario}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% endfor %}
+
+{% else %}
+<p>Voce ainda na tem pedidos concluidos</p>
+{% endif %}
+
+{% endblock %}
