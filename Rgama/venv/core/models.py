@@ -36,7 +36,9 @@ class Produto(Base):
         ("M", "Metros"),
         ("MM", "Milimetros"),
         ("CM","Centimetros"),
-        ("L","Litros")
+        ("L","Litros"),
+        ("U","Unidade"),
+        ("D","Duzia"),
     )
 
     nome = models.CharField("Nome", max_length=40)
@@ -87,8 +89,10 @@ class Pedido(Base):
     nome = models.CharField(max_length=100)
     telefone = models.CharField(max_length=20)
     endereco = models.TextField()
+    complemento = models.TextField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
     criado_em = models.DateTimeField(auto_now_add=True)
+    entrege = models.BooleanField("Entrege?", default=False)
 
     def __str__(self):
         return f"Pedido #{self.pk} - {self.nome}"

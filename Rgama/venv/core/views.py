@@ -192,8 +192,9 @@ class CheckOutView(TemplateView):
 
         # Pega os dados do formulário
         nome = request.POST.get("nome")
-        endereco = request.POST.get("endereco")
         telefone = request.POST.get("telefone")
+        endereco = request.POST.get("endereco")
+        complemento = request.POST.get("complemento")
 
         if not re.match(r'^\(\d{2}\) \d{5}-\d{4}$', telefone):
             messages.error(request, "Telefone inválido. Use o formato (99)99999-9999.")
@@ -211,6 +212,7 @@ class CheckOutView(TemplateView):
             nome=nome,
             telefone=telefone,
             endereco=endereco,
+            complemento=complemento,
             total=round(Decimal(total), 2)
         )
 

@@ -18,7 +18,7 @@ class ItemPedidoInline(admin.TabularInline):
 
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nome', 'telefone', 'total_formatado', 'criado_em']
+    list_display = ['id', 'nome', 'telefone', 'total_formatado', 'criado_em','entrege']
     readonly_fields = ['total']
     inlines = [ItemPedidoInline]  # <--- Isso exibe os itens do pedido dentro do admin
     search_fields = ['nome', 'telefone']
