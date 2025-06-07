@@ -105,9 +105,29 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   /* ========== MÁSCARA DE TELEFONE ========== */
-  const telefoneInput = document.getElementById("telefone");
-  if (telefoneInput && typeof Inputmask !== 'undefined') {
-    Inputmask({"mask": "(99) 99999-9999"}).mask(telefoneInput);
-  }
+const telInput = document.getElementById("telefone");
+
+if (telInput) {
+  telInput.addEventListener("input", function (e) {
+    let valor = e.target.value.replace(/\D/g, ""); // Remove tudo que não for número
+
+    if (valor.length > 11) valor = valor.slice(0, 11); // Limita a 11 dígitos
+
+    // Aplica a máscara conforme o tamanho do número
+    if (valor.length > 10) {
+      // Celular com 9 dígitos
+      valor = valor.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+    } else if (valor.length > 6) {
+      // Celular ou fixo com 8 dígitos
+      valor = valor.replace(/^(\d{2})(\d{4})(\d{0,4})$/, "($1) $2-$3");
+    } else if (valor.length > 2) {
+      valor = valor.replace(/^(\d{2})(\d{0,5})$/, "($1) $2");
+    } else {
+      valor = valor.replace(/^(\d*)$/, "($1");
+    }
+
+    e.target.value = valor;
+  });
+}
 
 });

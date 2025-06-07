@@ -187,7 +187,7 @@ class CheckOutView(TemplateView):
         endereco = request.POST.get("endereco")
         telefone = request.POST.get("telefone")
 
-        if not re.match(r'^\(\d{2}\)\d{5}-\d{4}$', telefone):
+        if not re.match(r'^\(\d{2}\) \d{5}-\d{4}$', telefone):
             messages.error(request, "Telefone inválido. Use o formato (99)99999-9999.")
             return redirect("/checkout/")  # Voltar para o formulário
 
