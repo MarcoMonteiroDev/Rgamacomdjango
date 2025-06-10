@@ -1,28 +1,28 @@
 {% load static %}
 
-    {% if request.GET.busca %}
-    <div class="col-12 mb-3">
-      <div class="alert alert-warning py-2 px-3 small">
-        Buscando por: <strong>{{ request.GET.busca }}</strong>
-      </div>
-    </div>
-    {% endif %}
+{% if request.GET.busca %}
+<div class="col-12 mb-3">
+  <div class="alert alert-warning py-2 px-3 small">
+    Buscando por: <strong>{{ request.GET.busca }}</strong>
+  </div>
+</div>
+{% endif %}
 
-        <div class="lista">
-          {% for produto in produtos %}
-            {% if produto.ativo == True %}
-              <div class="produto">
-                <a href="{% url 'produto' produto.id %}" class="tituloprod">
-                  <div class="">
-                    <img src="{{ produto.imagem.url }}" alt="" width="100%">
-                    <h2>{{ produto.nome|slice:":30" }}{% if produto.nome|length > 30 %}...{% endif %}</h2>
-                  </div>
-                  <div>
-                    <h3>{{ produto.preco }} R$</h3>
-                    <h4>ou 2x R$ 25,60 no cartao</h4>
-                  </div>
-                </a>
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
+<div class="lista">
+  {% for produto in produtos %}
+    {% if produto.ativo == True %}
+      <div class="produto">
+        <a href="{% url 'produto' produto.id %}" class="tituloprod">
+          <div class="">
+            <img src="{{ produto.imagem.url }}" alt="" width="100%">
+            <h2>{{ produto.nome|slice:":30" }}{% if produto.nome|length > 30 %}...{% endif %}</h2>
+          </div>
+          <div>
+            <h3>{{ produto.preco }} R$</h3>
+            <h4>ou 2x R$ 25,60 no cartao</h4>
+          </div>
+        </a>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

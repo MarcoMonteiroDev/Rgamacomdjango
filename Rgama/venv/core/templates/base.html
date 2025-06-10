@@ -20,6 +20,7 @@
     {% if user.is_anonymous %}
 
     <div class="dropdown d-flex justify-content-end">
+
       <button class="btn btn-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Entrar/cadastrar
       </button>
@@ -27,16 +28,18 @@
       <ul class="dropdown-menu ">
         <li><a href="{% url 'login' %}" class="dropdown-item">Entrar</a></li>
         <li><a href="{% url 'cadastro' %}" class="dropdown-item">Criar Conta</a></li>
-
       </ul>
+
     </div>
 
     {% else %}
 
     <div class="dropdown d-flex justify-content-end">
+
       <button id="dropdown-usuario" class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Bem Vindo {{user.first_name}} <span id="carrinho-contador" class="badge badge-notify">{{ request.session.carrinho|length }}</span>
       </button>
+
       <ul class="dropdown-menu dropdown-menu-end dropdown-flex" >
         <li><a class="dropdown-item" href="{% url 'carrinho' %}">Carrinho <span id="carrinho-contador" class="badge badge-notify">{{ request.session.carrinho|length }}</span></a></li>
         <li><a class="dropdown-item" href="{% url 'pedidos' %}">Meus Pedidos</a></li>
@@ -50,6 +53,7 @@
         </form>
         </li>
       </ul>
+
     </div>
 
     {% endif %}
@@ -67,6 +71,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="menus">
+
           <ul class="navbar-nav ms-auto">
             {% for value, label in categorias %}
 
@@ -76,6 +81,7 @@
 
             {% endfor%}
           </ul>
+          
         </div>
 
       </div>

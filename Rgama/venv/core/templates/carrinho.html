@@ -2,42 +2,49 @@
 {% load static %}
 
 {% block content %}
+
 <h2>Seu Carrinho</h2>
+
 {% if not carrinho.items %}
   <h1>Voce não tem itens no carrinho adicione itens ou veja seus pedidos concluidos <a href="{% url 'pedidos' %}">Aqui</a></h1>
 {% else %}
-  <form method="post" action="{% url 'atualizar_quantidade' %}">
-  {% csrf_token %}
-    <table>
-      <tr>
-        <th>Produto</th>
-        <th>Quantidade</th>
-        <th>Subtotal</th>
-        <th>Imagem</th>
-        <th>Remover</th>
-      </tr>
 
-      {% for produto_id, item in carrinho.items %}
-      <tr>
-        <td>{{ item.nome }}</td>
-        <td>
-          <input type="number" name="quantidade_{{ produto_id }}" value="{{ item.quantidade }}" min="1">
-        </td>
-        <td>R$ {{ item.subtotal }}</td>
-        <td><img src="{{ item.imagem }}" alt="" width="80"></td>
-        <td>
-          <a href="#" onclick="removerDoCarrinho('{{ produto_id }}')">Remover</a>
-        </td>
-      </tr>
-        {% endfor %}
-    </table>
+<form method="post" action="{% url 'atualizar_quantidade' %}">
+{% csrf_token %}
+  <table>
+
+    <tr>
+      <th>Produto</th>
+      <th>Quantidade</th>
+      <th>Subtotal</th>
+      <th>Imagem</th>
+      <th>Remover</th>
+    </tr>
+
+    {% for produto_id, item in carrinho.items %}
+    <tr>
+      <td>{{ item.nome }}</td>
+      <td>
+        <input type="number" name="quantidade_{{ produto_id }}" value="{{ item.quantidade }}" min="1">
+      </td>
+      <td>R$ {{ item.subtotal }}</td>
+      <td><img src="{{ item.imagem }}" alt="" width="80"></td>
+      <td>
+        <a href="#" onclick="removerDoCarrinho('{{ produto_id }}')">Remover</a>
+      </td>
+    </tr>
+      {% endfor %}
+
+  </table>
+  
+  <button type="submit">Finalizar Pedido</button>
+</form>
     
-    <button type="submit">Finalizar Pedido</button>
-  </form>
-    
-    <!-- Formulário oculto -->
-    <form id="remover-form" method="post" style="display:none;">
-      {% csrf_token %}
-    </form>
-  {% endif %}
+<!-- Formulário oculto -->
+<form id="remover-form" method="post" style="display:none;">
+  {% csrf_token %}
+</form>
+
+{% endif %}
+
 {% endblock %}
